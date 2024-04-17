@@ -23,6 +23,7 @@ let gl;
 let a_Position;
 let u_FragColor;
 let u_Size;
+let clearAll = 0;
 
 function setupWebGL() {
   // Retrieve <canvas> element
@@ -85,11 +86,13 @@ function addActionsForHtmlUI() {
   // Button Events (Shape Type)
   document.getElementById('green').onclick = function() {g_selectedColor = [0.0, 1.0, 0.0, 1.0];};
   document.getElementById('red').onclick = function() {g_selectedColor = [1.0, 0.0, 0.0, 1.0];};
-  document.getElementById('clearButton').onclick = function() {g_shapesList=[]; renderAllShapes()};
+  document.getElementById('clearButton').onclick = function() {g_shapesList=[]; clearAll = 1; renderAllShapes();};
 
   document.getElementById('pointButton').onclick = function() {g_selectedType=POINT};
   document.getElementById('triButton').onclick = function() {g_selectedType=TRIANGLE};
   document.getElementById('circleButton').onclick = function() {g_selectedType=CIRCLE};
+
+  document.getElementById('loadIMG').onclick = function() {drawIMG()};
 
 
   // Slider Events
@@ -199,8 +202,12 @@ function renderAllShapes() {
   // Check the time at the start of this function
   var startTime = performance.now();
 
-   // Clear <canvas>
-   gl.clear(gl.COLOR_BUFFER_BIT);
+
+  if (clearAll == 1) {
+    // Clear <canvas>
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    clearAll = 0;
+  }
 
   //  var len = g_points.length;
   var len = g_shapesList.length;
@@ -222,4 +229,251 @@ function sendTextToHTML(text, htmlID) {
     return;
   }
   htmlElm.innerHTML = text;
+}
+
+function drawIMG() {
+
+  var snd = new Audio("omni_speech.mp3");
+  snd.play();
+  snd.currentTime=0;
+
+
+
+  // Template:
+  // let x1 = [/100, /100
+  //           /100, /100];
+
+
+  
+  // White Shirt1
+  let x1 = [60/100, 0/100,
+            50/100, -100/100,
+            -60/100, 0/100];
+  gl.uniform4f(u_FragColor, 1.0, 1.0, 1.0, 0.3);
+  drawTriangle(x1);
+
+  // White Shirt2
+  let x1_2 = [-60/100, 0/100,
+            -50/100, -100/100,
+            50/100, -100/100];
+  gl.uniform4f(u_FragColor, 1.0, 1.0, 1.0, 0.3);
+  drawTriangle(x1_2);
+
+  // Red part of shirt
+  let x2 = [-45/100, 0/100,
+            45/100, 0/100,
+            0/100, -45/100];
+  gl.uniform4f(u_FragColor, 1.0, 0.0, 0.0, 1.0);
+  drawTriangle(x2);
+
+  // General head shape1
+  let x3 = [-20/100, 0/100,
+            20/100, 0/100,
+            -20/100, 40/100];
+  gl.uniform4f(u_FragColor, 0.94, 0.76, 0.68, 1.0);
+  drawTriangle(x3);
+
+  // General head shape2
+  let x4 = [-20/100, 40/100,
+            20/100, 40/100,
+            20/100, 0/100];
+  gl.uniform4f(u_FragColor, 0.94, 0.76, 0.68, 1.0);
+  drawTriangle(x4);
+
+  // Hair1
+  let x5 = [-20/100, 30/100,
+            -20/100, 40/100,
+            -15/100, 40/100];
+  gl.uniform4f(u_FragColor, 1.0, 1.0, 1.0, 0.3);
+  drawTriangle(x5);
+
+  // Hair2
+  let x6 = [20/100, 30/100,
+            20/100, 40/100,
+            15/100, 40/100];
+  gl.uniform4f(u_FragColor, 1.0, 1.0, 1.0, 0.3);
+  drawTriangle(x6);
+
+  // Hair3
+  let x7 = [-20/100, 40/100,
+            -15/100, 40/100,
+            -15/100, 50/100];
+  gl.uniform4f(u_FragColor, 0.22, 0.22, 0.22, 1.0);
+  drawTriangle(x7);
+
+  // Hair4
+  let x8 = [20/100, 40/100,
+            15/100, 40/100,
+            15/100, 50/100];
+  gl.uniform4f(u_FragColor, 0.22, 0.22, 0.22, 1.0);
+  drawTriangle(x8);
+
+  // Hair5
+  let x9 = [-15/100, 40/100,
+            -15/100, 50/100,
+            15/100, 50/100];
+  gl.uniform4f(u_FragColor, 0.22, 0.22, 0.22, 1.0);
+  drawTriangle(x9);
+
+  // Hair6
+  let x10 = [15/100, 40/100,
+            15/100, 50/100,
+            -15/100, 40/100];
+  gl.uniform4f(u_FragColor, 0.22, 0.22, 0.22, 1.0);
+  drawTriangle(x10);
+
+  //Chin1
+  let x11 = [-20/100, 0/100,
+            -10/100, 0/100,
+            -10/100, -5/100];
+  gl.uniform4f(u_FragColor, 0.94, 0.76, 0.68, 1.0);
+  drawTriangle(x11);
+
+  //Chin2
+  let x12 = [20/100, 0/100,
+            10/100, 0/100,
+            10/100, -5/100];
+  gl.uniform4f(u_FragColor, 0.94, 0.76, 0.68, 1.0);
+  drawTriangle(x12);
+
+  //Chin3
+  let x13 = [-10/100, 0/100,
+            -10/100, -5/100,
+            10/100, -5/100];
+  gl.uniform4f(u_FragColor, 0.94, 0.76, 0.68, 1.0);
+  drawTriangle(x13);
+
+  //Chin4
+  let x14 = [10/100, 0/100,
+            10/100, -5/100,
+            -10/100, 0/100];
+  gl.uniform4f(u_FragColor, 0.94, 0.76, 0.68, 1.0);
+  drawTriangle(x14);
+
+  //Chin5
+  let x15 = [-10/100, -5/100,
+            -7/100, -10/100,
+            7/100, -10/100];
+  gl.uniform4f(u_FragColor, 0.94, 0.76, 0.68, 1.0);
+  drawTriangle(x15);
+
+  //Chin6
+  let x16 = [10/100, -5/100,
+            7/100, -10/100,
+            -10/100, -5/100];
+  gl.uniform4f(u_FragColor, 0.94, 0.76, 0.68, 1.0);
+  drawTriangle(x16);
+
+  //Eyebrow1
+  let x17 = [-5/100, 30/100,
+            -14/100, 28/100,
+            -4/100, 27/100];
+  gl.uniform4f(u_FragColor, 0.22, 0.22, 0.22, 1.0);
+  drawTriangle(x17);
+
+  //Eyebrow2
+  let x18 = [5/100, 30/100,
+            14/100, 28/100,
+            4/100, 27/100];
+  gl.uniform4f(u_FragColor, 0.22, 0.22, 0.22, 1.0);
+  drawTriangle(x18);
+
+  //Eyebrow3
+  let x19 = [-5/100, 30/100,
+            -7/100, 27/100,
+            -2/100, 20/100];
+  gl.uniform4f(u_FragColor, 0.22, 0.22, 0.22, 1.0);
+  drawTriangle(x19);
+
+  //Eyebrow4
+  let x20 = [5/100, 30/100,
+            7/100, 27/100,
+            2/100, 20/100];
+  gl.uniform4f(u_FragColor, 0.22, 0.22, 0.22, 1.0);
+  drawTriangle(x20);
+
+  //Eyeb1
+  let x21 = [-11/100, 23/100,
+            -8/100, 21/100,
+            -5/100, 23/100];
+  gl.uniform4f(u_FragColor, 1.0, 0.0, 0.0, 1.0);
+  drawTriangle(x21);
+
+  //Eye2
+  let x22 = [11/100, 23/100,
+            8/100, 21/100,
+            5/100, 23/100];
+  gl.uniform4f(u_FragColor, 1.0, 0.0, 0.0, 1.0);
+  drawTriangle(x22);
+
+  //Eyeb3
+  let x23 = [-11/100, 23/100,
+            -8/100, 24/100,
+            -5/100, 23/100];
+  gl.uniform4f(u_FragColor, 1.0, 0.0, 0.0, 1.0);
+  drawTriangle(x23);
+
+  //Eye4
+  let x24 = [11/100, 23/100,
+            8/100, 24/100,
+            5/100, 23/100];
+  gl.uniform4f(u_FragColor, 1.0, 0.0, 0.0, 1.0);
+  drawTriangle(x24);
+
+  //Mustache1
+  let x25 = [-8/100, 6/100,
+            -6/100, 10/100,
+            -6/100, 14/100];
+  gl.uniform4f(u_FragColor, 0.22, 0.22, 0.22, 1.0);
+  drawTriangle(x25);
+
+  //Mustache2
+  let x26 = [8/100, 6/100,
+            6/100, 10/100,
+            6/100, 14/100];
+  gl.uniform4f(u_FragColor, 0.22, 0.22, 0.22, 1.0);
+  drawTriangle(x26);
+
+  //Mustache3
+  let x27 = [6/100, 10/100,
+            -6/100, 10/100,
+            -6/100, 14/100];
+  gl.uniform4f(u_FragColor, 0.22, 0.22, 0.22, 1.0);
+  drawTriangle(x27);
+
+  //Mustache4
+  let x28 = [-6/100, 10/100,
+            6/100, 10/100,
+            6/100, 14/100];
+  gl.uniform4f(u_FragColor, 0.22, 0.22, 0.22, 1.0);
+  drawTriangle(x28);
+
+  //Mouth1
+  let x29 = [-5/100, 7/100,
+            -5/100, 10/100,
+            5/100, 7/100];
+  gl.uniform4f(u_FragColor, 0.95, 0.60, 0.67, 1.0);
+  drawTriangle(x29);
+
+  //Mouth2
+  let x30 = [5/100, 7/100,
+            5/100, 10/100,
+            -5/100, 10/100];
+  gl.uniform4f(u_FragColor, 0.95, 0.60, 0.67, 1.0);
+  drawTriangle(x30);
+
+  //Mouth3
+  let x31 = [-3/100, 7/100,
+            -3/100, 10/100,
+            3/100, 10/100];
+  gl.uniform4f(u_FragColor, 0.87, 0.42, 0.48, 1.0);
+  drawTriangle(x31);
+
+  //Mouth4
+  let x32 = [3/100, 7/100,
+            3/100, 10/100,
+            -3/100, 7/100];
+  gl.uniform4f(u_FragColor, 0.87, 0.42, 0.48, 1.0);
+  drawTriangle(x32);
+
 }
